@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Deep Linking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .fallback {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .download-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Our App</h1>
+  <p>If the app is installed, you will be redirected to the content.</p>
+
+  <script>
+    function getTrackIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('trackId'); 
+    }
+
+    const trackId = getTrackIdFromUrl();
+
+    if (!trackId) {
+      document.getElementById('fallback-message').style.display = 'block'; 
+    }
+
+    const appScheme = `exp://10.10.6.60:8081/--/GroupScreen/GroupInfo/${trackId}`; 
+    const fallbackUrl = 'https://www.splitwise.com/join/cUKVSozYXcf+13xzn5'; 
+    const timeoutDuration = 1500;
+
+    function detectApp() {
+      const startTime = Date.now();
+
+      window.location.href = appScheme;
+
+      setTimeout(() => {
+        const timeTaken = Date.now() - startTime;
+        
+        if (timeTaken < timeoutDuration + 100) {
+          window.location.href = fallbackUrl;
+        }
+      }, timeoutDuration);
+    }
+
+    window.onload = function () {
+      if (trackId) {
+        detectApp();
+      } else {
+        document.getElementById('fallback-message').style.display = 'block'; 
+      }
+    };
+  </script>
+</body>
+</html>
