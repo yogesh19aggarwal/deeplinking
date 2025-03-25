@@ -30,32 +30,27 @@
   <script>
     function getTrackIdFromUrl() {
       const urlParams = new URLSearchParams(window.location.search);
-      console.log('====================================');
-      console.log(urlParams.get('trackId'));
-      console.log('====================================');
-      return urlParams.get('trackId'); 
+      const id = urlParams.get('id');
+      console.log('Extracted ID:', id);
+      return id;
     }
 
+    const id = getTrackIdFromUrl();
 
-
-    const trackId = getTrackIdFromUrl();
-
-    if (!trackId) {
-      document.getElementById('fallback-message').style.display = 'block'; 
+    if (!id) {
+      document.getElementById('fallback-message')?.style.display = 'block'; 
     }
 
-    const appScheme = `exp://10.10.6.60:8081/--/GroupScreen/GroupInfo/${trackId}`; 
-    const fallbackUrl = 'https://www.splitwise.com/join/cUKVSozYXcf+13xzn5'; 
+    const appScheme = `exp://10.10.6.60:8081/--/GroupScreen/GroupInfo/${id}`;
+    const fallbackUrl = 'https://play.google.com/store/apps/details?id=com.Splitwise.SplitwiseMobile'; 
     const timeoutDuration = 1500;
 
     function detectApp() {
       const startTime = Date.now();
-
       window.location.href = appScheme;
 
       setTimeout(() => {
         const timeTaken = Date.now() - startTime;
-        
         if (timeTaken < timeoutDuration + 100) {
           window.location.href = fallbackUrl;
         }
@@ -63,10 +58,10 @@
     }
 
     window.onload = function () {
-      if (trackId) {
+      if (id) {
         detectApp();
       } else {
-        document.getElementById('fallback-message').style.display = 'block'; 
+        document.getElementById('fallback-message')?.style.display = 'block'; 
       }
     };
   </script>
