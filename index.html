@@ -30,8 +30,13 @@
   <script>
     function getTrackIdFromUrl() {
       const urlParams = new URLSearchParams(window.location.search);
+      console.log('====================================');
+      console.log(urlParams.get('trackId'));
+      console.log('====================================');
       return urlParams.get('trackId'); 
     }
+
+
 
     const trackId = getTrackIdFromUrl();
 
